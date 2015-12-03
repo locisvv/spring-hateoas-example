@@ -8,6 +8,7 @@ import com.jersey.dao.Album;
 import com.jersey.dao.Artist;
 import com.jersey.dao.ResourceWithEmbedded;
 import com.jersey.dao.MusicService;
+import com.sun.jersey.server.linking.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,7 @@ public class AlbumController {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, "application/hal+json", "application/hal+xml"})
     public Response getAlbum(@PathParam("id") String id, @DefaultValue("false") @QueryParam("embedded") boolean embedded) {
         Album album = musicService.getAlbum(id);
+
         return Response.ok(getAlbumResource(album, embedded)).build();
     }
 
