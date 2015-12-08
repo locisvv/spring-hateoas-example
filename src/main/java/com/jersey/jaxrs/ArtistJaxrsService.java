@@ -1,7 +1,7 @@
-package com.jersey.controllers;
+package com.jersey.jaxrs;
 
-import com.jersey.dao.Artist;
-import com.jersey.dao.MusicService;
+import com.jersey.dto.Artist;
+import com.jersey.service.MusicRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.stereotype.Component;
@@ -18,13 +18,12 @@ import static org.springframework.hateoas.jaxrs.JaxRsLinkBuilder.linkTo;
  */
 @Component
 @Path("/artist")
-public class ArtistController {
+public class ArtistJaxrsService {
     private static final String APPLICATION_HAL_JSON = "application/hal+json";
     private static final String APPLICATION_HAL_XML = "application/hal+xml";
-    private static final String HAL = "hal+";
 
     @Autowired
-    private MusicService musicService;
+    private MusicRepositoryService musicRepositoryService;
 
     @GET
     @Path("/{id}")
@@ -34,8 +33,8 @@ public class ArtistController {
 
         Resource<Artist> hypResource = new Resource<Artist>(a);
 
-        hypResource.add(linkTo((ArtistController.class)).slash(id).withRel("self"));
-        hypResource.add(linkTo(ArtistController.class).slash(id).withRel("my"));
+        hypResource.add(linkTo((ArtistJaxrsService.class)).slash(id).withRel("self"));
+        hypResource.add(linkTo(ArtistJaxrsService.class).slash(id).withRel("my"));
 
         return Response.ok(hypResource).build();
     }

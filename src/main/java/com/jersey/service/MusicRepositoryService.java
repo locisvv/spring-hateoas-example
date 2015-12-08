@@ -1,5 +1,7 @@
-package com.jersey.dao;
+package com.jersey.service;
 
+import com.jersey.dto.Album;
+import com.jersey.dto.Artist;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -10,15 +12,12 @@ import java.util.Map;
  * Created by vsabadosh on 17/11/15.
  */
 @Service
-public class MusicService {
+public class MusicRepositoryService {
 
     private Map<String, Album> albums;
     private Map<String, Artist> artists;
 
-    /**
-     * Constructor populates the 'database' (i.e. Maps) of Artists and Albums.
-     */
-    public MusicService() {
+    public MusicRepositoryService() {
 
         albums = new HashMap<String, Album>();
         artists = new HashMap<String, Artist>();
@@ -41,6 +40,7 @@ public class MusicService {
     public void addAlbum(Album album) {
         albums.put(album.getId(), album);
     }
+
     public Collection<Album> getAllAlbums() {
         Map<String, Album> newAlbums = new HashMap<String, Album>();
         for (Album album : albums.values()) {

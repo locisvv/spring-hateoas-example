@@ -1,8 +1,11 @@
-package com.jersey.dao;
+package com.jersey.dto;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by vsabadosh on 17/11/15.
  */
+@XmlRootElement
 public class Album {
 
     private String id;
@@ -10,8 +13,7 @@ public class Album {
     private String artistId;
     private int stockLevel;
 
-    public Album() {
-    }
+    public Album() {}
 
     public Album(String id, String title, String artistId, int stockLevel) {
         this.id = id;

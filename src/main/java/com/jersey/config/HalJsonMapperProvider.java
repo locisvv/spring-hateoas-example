@@ -1,4 +1,4 @@
-package com.jersey.cfg;
+package com.jersey.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import org.springframework.hateoas.RelProvider;
+import org.springframework.hateoas.core.DefaultRelProvider;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ public class HalJsonMapperProvider implements ContextResolver<ObjectMapper> {
         halObjectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         halObjectMapper
                 .setHandlerInstantiator(new Jackson2HalModule.
-                        HalHandlerInstantiator(AStaticApplicationContext.context.getBean("_relProvider", RelProvider.class), null, false));
+                        HalHandlerInstantiator(new DefaultRelProvider(), null, false));
         halObjectMapper.registerModule(new Jackson2HalModule());
     }
 

@@ -1,14 +1,15 @@
-package com.jersey.cfg;
+package com.jersey.config;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import org.springframework.hateoas.RelProvider;
+import org.springframework.hateoas.core.DefaultRelProvider;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.stereotype.Component;
 
@@ -22,15 +23,15 @@ import javax.ws.rs.ext.Provider;
  * @version $Id:
  * @since 27.11.2015
  */
-//@Provider
-//@Component
-@Consumes({"application/album.hal+xml"})
-@Produces({"application/album.hal+xml"})
-public class HalXmlMapperProvider implements ContextResolver<XmlMapper> {
-    private final XmlMapper xmlMapper;
+@Provider
+@Component
+@Consumes({"application/hal+xml", "application/xml"})
+@Produces({"application/hal+xml", "application/xml"})
+public class HalXmlMapperProvider implements ContextResolver<ObjectMapper> {
+    private final ObjectMapper xmlMapper;
 
     public HalXmlMapperProvider() {
-        xmlMapper = new XmlMapper();
+        xmlMapper = new ObjectMapper();
         xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         xmlMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
@@ -40,13 +41,12 @@ public class HalXmlMapperProvider implements ContextResolver<XmlMapper> {
         xmlMapper.setAnnotationIntrospector(pair);
 
         xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        xmlMapper.setHandlerInstantiator(new Jackson2HalModule.
-                HalHandlerInstantiator(AStaticApplicationContext.context.getBean("_relProvider", RelProvider.class), null));
+        xmlMapper.setHandlerInstantiator(new Jackson2HalModule.HalHandlerInstantiator(new DefaultRelProvider(), null));
         xmlMapper.registerModule(new Jackson2HalModule());
     }
 
     @Override
-    public XmlMapper getContext(Class<?> type) {
+    public ObjectMapper getContext(Class<?> type) {
         return xmlMapper;
     }
 }
