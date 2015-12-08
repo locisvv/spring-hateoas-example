@@ -3,13 +3,14 @@ package com.jersey.dao;
 /**
  * Created by vsabadosh on 17/11/15.
 */
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Music Artist/Group.
  *
  */
-@XmlRootElement(name = "artist")
+@XmlRootElement(name = "artist2")
 public class Artist {
 
     private String id;

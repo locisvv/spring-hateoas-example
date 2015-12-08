@@ -2,7 +2,9 @@ package com.jersey.dao;
 
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by vsabadosh on 17/11/15.
@@ -26,10 +28,10 @@ public class MusicService {
         artists.put(artist1.getId(), artist1);
         artists.put(artist2.getId(), artist2);
 
-        Album album1 = new Album("1", "Heritage", artist1, 2);
-        Album album2 = new Album("2", "Deliverance", artist1, 3);
-        Album album3 = new Album("3", "Pale Communion", artist1, 0);
-        Album album4 = new Album("3", "Monotheist", artist2, 1);
+        Album album1 = new Album("1", "Heritage", artist1.getId(), 2);
+        Album album2 = new Album("2", "Deliverance", artist1.getId(), 3);
+        Album album3 = new Album("3", "Pale Communion", artist1.getId(), 0);
+        Album album4 = new Album("3", "Monotheist", artist2.getId(), 1);
         albums.put(album1.getId(), album1);
         albums.put(album2.getId(), album2);
         albums.put(album3.getId(), album3);

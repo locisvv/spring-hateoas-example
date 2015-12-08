@@ -2,7 +2,12 @@ package com.jersey.dao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.Resources;
 
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashMap;
@@ -14,14 +19,14 @@ import java.util.Map;
  * @since 26.11.2015
  */
 @XmlRootElement
-public class ResourceWithEmbedded<T> {
+public class ResourceWrapper<T> extends ResourceSupport {
     @JsonUnwrapped
-    T entity;
-    public ResourceWithEmbedded() {}
+    @XmlAnyElement
+    private T entity;
 
-    @JsonProperty("_embedded")
-    @XmlElement(name = "embedded")
-    private Map<String, Object> embedded;
+    @JsonUnwrapped
+    @XmlAnyElement
+    private Resources embedded;
 
     public T getEntity() {
         return entity;
@@ -31,14 +36,11 @@ public class ResourceWithEmbedded<T> {
         this.entity = entity;
     }
 
-    public Map<String, Object> getEmbedded() {
+    public Resources getEmbedded() {
         return embedded;
     }
 
-    public void putEmbedded(String id, Object entity) {
-        if (embedded == null) {
-            embedded = new HashMap<>();
-        }
-        embedded.put(id, entity);
+    public void setEmbedded(Resources embedded) {
+        this.embedded = embedded;
     }
 }

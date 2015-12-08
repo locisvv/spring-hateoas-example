@@ -30,9 +30,9 @@
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
             <param-value>
+                com.jersey
                 com.fasterxml.jackson.jaxrs.xml
                 com.fasterxml.jackson.jaxrs.json
-                com.jersey.cfg
             </param-value>
         </init-param>
          <init-param>
