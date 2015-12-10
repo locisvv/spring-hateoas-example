@@ -30,7 +30,7 @@ public class AlbumJaxrsService {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, "application/hal+json", "application/hal+xml"})
     public Response getAllAlbums(@DefaultValue("false") @QueryParam("embedded") boolean embedded) {
         Collection<Album> albums = musicRepositoryService.getAllAlbums();
-        List<HalResource<Album>> resources = new ArrayList<>();
+        List<HalResource> resources = new ArrayList<>();
         for (Album album : albums) {
             resources.add(getAlbumResource(album, embedded));
         }
@@ -45,9 +45,9 @@ public class AlbumJaxrsService {
         return Response.ok(getAlbumResource(album, embedded)).build();
     }
 
-    private HalResource<Album> getAlbumResource(Album album, boolean embedded) {
+    private HalResource<Album, Artist> getAlbumResource(Album album, boolean embedded) {
         Resource<Artist> artistResource = new Resource<Artist>(musicRepositoryService.getArtist(album.getArtistId()),
-                    JaxRsLinkBuilder.linkTo(AlbumJaxrsService.class).slash(album.getId()).withSelfRel());
+                JaxRsLinkBuilder.linkTo(AlbumJaxrsService.class).slash(album.getId()).withSelfRel());
 
         HalResource albumResource;
         if (embedded) {

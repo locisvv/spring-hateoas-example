@@ -29,10 +29,7 @@ public class ArtistJaxrsService {
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
     public Response getArtist(@PathParam("id") String id, @HeaderParam(HttpHeaders.ACCEPT) String accept) {
-        Artist a = new Artist("1", "Dafuq");
-
-        Resource<Artist> hypResource = new Resource<Artist>(a);
-
+        Resource<Artist> hypResource = new Resource<>(musicRepositoryService.getArtist(id));
         hypResource.add(linkTo((ArtistJaxrsService.class)).slash(id).withRel("self"));
         hypResource.add(linkTo(ArtistJaxrsService.class).slash(id).withRel("my"));
 
@@ -40,7 +37,7 @@ public class ArtistJaxrsService {
     }
 
     @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
+   @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
     public Response putArtist(Resource<Artist> artistResource) {
         return Response.status(201).entity(artistResource).build();
     }

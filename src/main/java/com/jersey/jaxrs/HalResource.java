@@ -2,12 +2,9 @@ package com.jersey.jaxrs;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.Resources;
 
-import javax.xml.bind.annotation.*;
-import java.util.Arrays;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author Vasyl Spachynskyi
@@ -15,21 +12,23 @@ import java.util.List;
  * @since 26.11.2015
  */
 @XmlRootElement(name = "resource")
-public class HalResource<T> extends Resources {
+public class HalResource<EntityType, EmbeddedType> extends Resources<EmbeddedType> {
+
     @JsonUnwrapped
-    private T entity;
+    private EntityType entity;
 
-    public HalResource() {}
-
-    public HalResource(Iterable<T> content) {
-        super(content);
+    public HalResource() {
     }
 
-    public T getEntity() {
+    public HalResource(Iterable<EmbeddedType> content, Link... links) {
+        super(content, links);
+    }
+
+    public EntityType getEntity() {
         return entity;
     }
 
-    public void setEntity(T entity) {
+    public void setEntity(EntityType entity) {
         this.entity = entity;
     }
 }
