@@ -2,11 +2,10 @@ package com.jersey.service;
 
 import com.jersey.dto.Album;
 import com.jersey.dto.Artist;
+import com.jersey.dto.Musician;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by vsabadosh on 17/11/15.
@@ -16,21 +15,28 @@ public class MusicRepositoryService {
 
     private Map<String, Album> albums;
     private Map<String, Artist> artists;
+    private List<Musician> musicians;
 
     public MusicRepositoryService() {
+        albums = new HashMap<>();
+        artists = new HashMap<>();
+        musicians = new ArrayList<>();
 
-        albums = new HashMap<String, Album>();
-        artists = new HashMap<String, Artist>();
-
-        Artist artist1 = new Artist("1", "Opeth");
+        Artist artist1 = new Artist("1", "artist");
         Artist artist2 = new Artist("2", "Celtic Frost");
         artists.put(artist1.getId(), artist1);
         artists.put(artist2.getId(), artist2);
 
-        Album album1 = new Album("1", "Heritage", artist1.getId(), 2);
-        Album album2 = new Album("2", "Deliverance", artist1.getId(), 3);
-        Album album3 = new Album("3", "Pale Communion", artist1.getId(), 0);
-        Album album4 = new Album("3", "Monotheist", artist2.getId(), 1);
+        musicians.addAll(Arrays.asList(
+                new Musician(3, "Peter", "saxophone"),
+                new Musician(2, "David", "violin"),
+                new Musician(1, "Kate", "piano")));
+
+        Album album1 = new Album("1", "album", 2);
+        Album album2 = new Album("2", "Deliverance", 3);
+        Album album3 = new Album("3", "Pale Communion", 0);
+        Album album4 = new Album("3", "Monotheist", 1);
+
         albums.put(album1.getId(), album1);
         albums.put(album2.getId(), album2);
         albums.put(album3.getId(), album3);
@@ -56,5 +62,13 @@ public class MusicRepositoryService {
 
     public Artist getArtist(final String id) {
         return artists.get(id);
+    }
+
+    public Musician getMusician(final int id) {
+        return musicians.get(id);
+    }
+
+    public List<Musician> getMusicians() {
+        return musicians;
     }
 }

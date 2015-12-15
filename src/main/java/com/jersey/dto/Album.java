@@ -1,6 +1,7 @@
 package com.jersey.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by vsabadosh on 17/11/15.
@@ -10,15 +11,16 @@ public class Album {
 
     private String id;
     private String title;
-    private String artistId;
+    private Artist artist;
     private int stockLevel;
+    private List<Musician> musicians;
 
-    public Album() {}
+    public Album() {
+    }
 
-    public Album(String id, String title, String artistId, int stockLevel) {
+    public Album(String id, String title, int stockLevel) {
         this.id = id;
         this.title = title;
-        this.artistId = artistId;
         this.stockLevel = stockLevel;
     }
 
@@ -30,8 +32,8 @@ public class Album {
         return title;
     }
 
-    public String getArtistId() {
-        return artistId;
+    public Artist getArtist() {
+        return artist;
     }
 
     public int getStockLevel() {
@@ -42,7 +44,15 @@ public class Album {
         this.stockLevel = stockLevel;
     }
 
+    public List<Musician> getMusicians() {
+        return musicians;
+    }
+
+    public void setMusicians(List<Musician> musicians) {
+        this.musicians = musicians;
+    }
+
     public Album copyAlbum() {
-        return new Album(id, title, artistId, stockLevel);
+        return new Album(id, title, stockLevel);
     }
 }

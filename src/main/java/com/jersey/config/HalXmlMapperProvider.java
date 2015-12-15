@@ -27,26 +27,22 @@ import javax.ws.rs.ext.Provider;
 @Component
 @Consumes({"application/hal+xml", "application/xml"})
 @Produces({"application/hal+xml", "application/xml"})
-public class HalXmlMapperProvider implements ContextResolver<ObjectMapper> {
-    private final ObjectMapper xmlMapper;
+public class HalXmlMapperProvider implements ContextResolver<XmlMapper> {
+    private final XmlMapper xmlMapper;
 
     public HalXmlMapperProvider() {
-        xmlMapper = new ObjectMapper();
+        xmlMapper = new XmlMapper();
         xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         xmlMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-        AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
-        AnnotationIntrospector secondary =  new JacksonAnnotationIntrospector();
-        AnnotationIntrospector pair = AnnotationIntrospector.pair(secondary, primary);
-        xmlMapper.setAnnotationIntrospector(pair);
-
         xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        xmlMapper.setHandlerInstantiator(new Jackson2HalModule.HalHandlerInstantiator(new DefaultRelProvider(), null));
+
+        xmlMapper.setHandlerInstantiator(new Jackson2HalModule.
+                HalHandlerInstantiator(new XmlRootRelProvider(), null, false));
         xmlMapper.registerModule(new Jackson2HalModule());
     }
 
     @Override
-    public ObjectMapper getContext(Class<?> type) {
+    public XmlMapper getContext(Class<?> type) {
         return xmlMapper;
     }
 }

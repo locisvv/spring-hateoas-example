@@ -1,9 +1,7 @@
 package com.jersey.jaxrs;
 
-import com.jersey.dto.Artist;
 import com.jersey.service.MusicRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -12,7 +10,6 @@ import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-import static org.springframework.hateoas.jaxrs.JaxRsLinkBuilder.linkTo;
 
 /**
  * @author Vasyl Spachynskyi
@@ -31,12 +28,13 @@ public class MusiciansJaxrsService {
     @GET
     @Path("/{id}")
     @Produces({APPLICATION_XML, APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
-    public Response getMusician(@PathParam("id") String id, @HeaderParam(HttpHeaders.ACCEPT) String accept) {
-        Resource<Artist> hypResource = new Resource<>(musicRepositoryService.getArtist(id));
-        hypResource.add(linkTo((ArtistJaxrsService.class)).slash(id).withRel("self"));
-        hypResource.add(linkTo(ArtistJaxrsService.class).slash(id).withRel("my"));
-
-        return Response.ok(hypResource).build();
+    public Response getMusician(@PathParam("id") Integer id, @HeaderParam(HttpHeaders.ACCEPT) String accept) {
+        return Response.ok(musicRepositoryService.getMusician(id)).build();
     }
 
+    @GET
+    @Produces({APPLICATION_XML, APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
+    public Response getMusicians(@PathParam("id") Integer id, @HeaderParam(HttpHeaders.ACCEPT) String accept) {
+        return Response.ok(musicRepositoryService.getMusicians()).build();
+    }
 }

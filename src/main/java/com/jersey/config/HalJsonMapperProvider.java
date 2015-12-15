@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import org.springframework.hateoas.core.DefaultRelProvider;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.stereotype.Component;
 
@@ -35,12 +34,13 @@ public class HalJsonMapperProvider implements ContextResolver<ObjectMapper> {
         AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
         AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
         AnnotationIntrospector pair = AnnotationIntrospector.pair(secondary, primary);
-        halObjectMapper.setAnnotationIntrospector(pair);
 
+        halObjectMapper.setAnnotationIntrospector(pair);
         halObjectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
         halObjectMapper
                 .setHandlerInstantiator(new Jackson2HalModule.
-                        HalHandlerInstantiator(new DefaultRelProvider(), null, false));
+                        HalHandlerInstantiator(new XmlRootRelProvider(), null, false));
         halObjectMapper.registerModule(new Jackson2HalModule());
     }
 

@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static org.springframework.hateoas.jaxrs.JaxRsLinkBuilder.linkTo;
 
 /**
@@ -27,7 +28,7 @@ public class ArtistJaxrsService {
 
     @GET
     @Path("/{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
+    @Produces({APPLICATION_XML, APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
     public Response getArtist(@PathParam("id") String id, @HeaderParam(HttpHeaders.ACCEPT) String accept) {
         Resource<Artist> hypResource = new Resource<>(musicRepositoryService.getArtist(id));
         hypResource.add(linkTo((ArtistJaxrsService.class)).slash(id).withRel("self"));
@@ -37,7 +38,7 @@ public class ArtistJaxrsService {
     }
 
     @POST
-   @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
+    @Consumes({APPLICATION_XML, APPLICATION_JSON, APPLICATION_HAL_JSON, APPLICATION_HAL_XML})
     public Response putArtist(Resource<Artist> artistResource) {
         return Response.status(201).entity(artistResource).build();
     }
