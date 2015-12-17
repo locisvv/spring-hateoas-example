@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class AlbumJaxrsService {
             Resource<Artist> artistResource = new Resource<>(musicRepositoryService.getArtist("1"), artistLink.withSelfRel());
 
             albumResource.add(musicians, musicRepositoryService.getMusicians());
-            albumResource.add(artistLink, artistResource);
+            albumResource.add(artistLink, Arrays.asList(artistResource,artistResource));
         }
         return albumResource;
     }

@@ -1,4 +1,4 @@
-package com.jersey.config;
+package com.jersey.providers;
 
 import org.atteo.evo.inflector.English;
 import org.springframework.hateoas.RelProvider;
@@ -27,6 +27,5 @@ public class XmlRootRelProvider implements RelProvider {
     @Override
     public boolean supports(Class<?> aClass) {
         return true;
-
     }
 }

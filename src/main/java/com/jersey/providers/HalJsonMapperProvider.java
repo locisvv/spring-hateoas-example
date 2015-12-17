@@ -1,4 +1,4 @@
-package com.jersey.config;
+package com.jersey.providers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;

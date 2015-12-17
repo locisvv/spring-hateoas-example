@@ -6,10 +6,6 @@ package com.jersey.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Music Artist/Group.
- *
- */
 @XmlRootElement(name = "artist")
 public class Artist {
 

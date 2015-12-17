@@ -1,10 +1,8 @@
-package com.jersey.config;
-
+package com.jersey.providers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -23,6 +21,7 @@ import javax.ws.rs.ext.Provider;
  * @version $Id:
  * @since 27.11.2015
  */
+
 @Provider
 @Component
 @Consumes({"application/hal+xml", "application/xml"})
@@ -36,6 +35,11 @@ public class HalXmlMapperProvider implements ContextResolver<XmlMapper> {
         xmlMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
+        AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+        AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+        AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
+
+        xmlMapper.setAnnotationIntrospector(pair);
         xmlMapper.setHandlerInstantiator(new Jackson2HalModule.
                 HalHandlerInstantiator(new XmlRootRelProvider(), null, false));
         xmlMapper.registerModule(new Jackson2HalModule());

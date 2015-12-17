@@ -1,5 +1,7 @@
 package com.jersey.dto;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -44,6 +46,8 @@ public class Album {
         this.stockLevel = stockLevel;
     }
 
+    @XmlElementWrapper(name = "musicians")
+    @XmlElement(name = "musician")
     public List<Musician> getMusicians() {
         return musicians;
     }

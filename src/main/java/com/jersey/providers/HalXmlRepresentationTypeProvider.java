@@ -1,4 +1,4 @@
-package com.jersey.jaxrs;
+package com.jersey.providers;
 
 import com.fasterxml.jackson.jaxrs.xml.JacksonJaxbXMLProvider;
 
@@ -18,7 +18,7 @@ import java.lang.reflect.Type;
         "application/xml",
         "application/hal+xml",
         "text/xml"})
-public class CustomRepresentationTypeProvider extends JacksonJaxbXMLProvider {
+public class HalXmlRepresentationTypeProvider extends JacksonJaxbXMLProvider {
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
